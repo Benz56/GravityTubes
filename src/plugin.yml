@@ -1,0 +1,15 @@
+name: GravityTubes
+version: 1.0.0
+api-version: 1.13
+author: Benz56
+description: Messes with gravity!
+main: com.benzoft.gravitytubes.GravityTubes
+commands:
+  gravitytubes:
+    usage: /gravitytubes
+    description: User commands.
+    aliases: [gravitytube, gravity, gtube, gtubes, gt]
+  gravitytubesadmin:
+    usage: /gravitytubesadmin
+    description: Admin commands.
+    aliases: [gravitytubeadmin, gravityadmin, gtubeadmin, gta]
