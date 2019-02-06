@@ -12,8 +12,8 @@ public class GravityTubes extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //new UpdateChecker(this).checkForUpdate();
-        //new Metrics(this);
+        new UpdateChecker(this).checkForUpdate();
+        new Metrics(this);
         getDataFolder().mkdirs();
         ConfigFile.getInstance();
         MessagesFile.getInstance();

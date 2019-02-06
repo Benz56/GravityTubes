@@ -22,7 +22,7 @@ import java.net.URL;
 
 class UpdateChecker implements Listener {
 
-    private static final int ID = 0; //TODO get actual ID.
+    private static final int ID = 64624;
     private static final Permission UPDATE_PERM = new Permission(GTPerm.UPDATE.getPermissionString(), PermissionDefault.FALSE);
 
     private final JavaPlugin javaPlugin;
