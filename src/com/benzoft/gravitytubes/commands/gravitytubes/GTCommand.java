@@ -14,7 +14,8 @@ public class GTCommand extends AbstractCommand {
                 new Help("help", GTPerm.COMMANDS_HELP, false, "h"),
                 new Create("create", GTPerm.COMMANDS_CREATE, true, "cr", "c"),
                 new Delete("delete", GTPerm.COMMANDS_DELETE, true, "del", "d", "remove", "rem", "r"),
-                new Settings("settings", GTPerm.COMMANDS_SETTINGS, true, "set", "s")
+                new Settings("settings", GTPerm.COMMANDS_SETTINGS, true, "set", "s"),
+                new Info("info", GTPerm.COMMANDS_INFO, true, "inf", "i")
         );
     }
 

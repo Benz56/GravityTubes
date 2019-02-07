@@ -13,7 +13,7 @@ public class GravityTube {
     private final ConfigurationSection configurationSection;
     private int height;
     private int power;
-    private float[] color;
+    private ParticleUtil.GTParticleColor color;
 
 
     public GravityTube(final Location source, final ConfigurationSection configurationSection) {
@@ -21,8 +21,8 @@ public class GravityTube {
         this.configurationSection = configurationSection;
         height = configurationSection.getInt("height", 256 - source.getBlockY());
         power = configurationSection.getInt("power", 10);
-        color = ParticleUtil.parseColor(configurationSection.getString("color", "white"));
-        color = color == null ? new float[]{1, 1, 1} : color;
+        color = ParticleUtil.getFromColor(configurationSection.getString("color", "white"));
+        color = color == null ? ParticleUtil.GTParticleColor.WHITE : color;
     }
 
     boolean isInTube(final Entity entity) {
@@ -37,7 +37,7 @@ public class GravityTube {
             xOffset = ThreadLocalRandom.current().nextDouble(1);
             zOffset = ThreadLocalRandom.current().nextDouble(1);
             if (ThreadLocalRandom.current().nextDouble(1) >= 0.2) //TODO Particle density setting.
-                ParticleUtil.spawnParticle(new Location(source.getWorld(), source.getBlockX() + xOffset, y, source.getBlockZ() + zOffset), color == null ? new float[]{1, 1, 1} : color);
+                ParticleUtil.spawnParticle(new Location(source.getWorld(), source.getBlockX() + xOffset, y, source.getBlockZ() + zOffset), color);
         }
     }
 
@@ -45,7 +45,7 @@ public class GravityTube {
         return source;
     }
 
-    int getPower() {
+    public int getPower() {
         return power;
     }
 
@@ -54,13 +54,21 @@ public class GravityTube {
         configurationSection.set("power", power);
     }
 
+    public int getHeight() {
+        return height;
+    }
+
     public void setHeight(final int height) {
         this.height = height;
         configurationSection.set("height", height);
     }
 
+    public ParticleUtil.GTParticleColor getColor() {
+        return color;
+    }
+
     public void setColor(final String color) {
-        this.color = ParticleUtil.parseColor(color);
+        this.color = ParticleUtil.getFromColor(color);
         configurationSection.set("color", color);
     }
 }

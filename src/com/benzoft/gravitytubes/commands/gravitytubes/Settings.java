@@ -47,7 +47,7 @@ public class Settings extends AbstractSubCommand {
                     break;
                 case "color":
                 case "c":
-                    final float[] color = ParticleUtil.parseColor(args[2]);
+                    final float[] color = ParticleUtil.getFromColor(args[2]).getRgb();
                     if (color != null) {
                         targetTube.setColor(args[2]);
                         success = true;

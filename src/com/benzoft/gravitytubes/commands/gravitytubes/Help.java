@@ -26,6 +26,7 @@ public class Help extends AbstractSubCommand {
                 "  &7&l● &aColor (E.g. yellow or colorcodes)\n" +
                 "\n&7Click to suggest.", "/gravitytubes settings ", ClickEvent.Action.SUGGEST_COMMAND);
         MessageUtil.sendJSON(player, " &7&l● &e/gt delete", "&eDelete the gravity tube you're looking at.\n&eThe location has to be the source block.\n\n&7Click to run.", "/gravitytubes delete");
+        MessageUtil.sendJSON(player, " &7&l● &e/gt info", "&eGet info about the gravity tube you're looking at.\n&eThe location has to be the source block.\n\n&7Click to run.", "/gravitytubes info");
         MessageUtil.send(player, "&9&m&l----------------------------------");
     }
 }

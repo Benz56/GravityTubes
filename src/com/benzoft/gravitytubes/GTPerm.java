@@ -8,6 +8,7 @@ public enum GTPerm {
     COMMANDS_CREATE("gravitytubes.commands.create"),
     COMMANDS_DELETE("gravitytubes.commands.delete"),
     COMMANDS_SETTINGS("gravitytubes.commands.settings"),
+    COMMANDS_INFO("gravitytubes.commands.info"),
     ADMIN("gravitytubes.admin"),
     UPDATE("gravitytubes.update");
 
