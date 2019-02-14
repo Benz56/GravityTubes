@@ -1,5 +1,6 @@
 package com.benzoft.gravitytubes;
 
+import com.benzoft.gravitytubes.utils.LocationUtil;
 import com.benzoft.gravitytubes.utils.ParticleUtil;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,7 +46,7 @@ public class GravityTube {
         return source;
     }
 
-    public int getPower() {
+    int getPower() {
         return power;
     }
 
@@ -54,21 +55,23 @@ public class GravityTube {
         configurationSection.set("power", power);
     }
 
-    public int getHeight() {
-        return height;
-    }
-
     public void setHeight(final int height) {
         this.height = height;
         configurationSection.set("height", height);
     }
 
-    public ParticleUtil.GTParticleColor getColor() {
-        return color;
-    }
-
     public void setColor(final String color) {
         this.color = ParticleUtil.getFromColor(color);
         configurationSection.set("color", color);
+    }
+
+    public String getInfo() {
+        return String.join("&r\n",
+                "&9&m&l---&e Gravity Tube Info &9&m&l--------",
+                " &7- &eLocation: &a" + LocationUtil.locationToString(source),
+                " &7- &eHeight: &a" + height,
+                " &7- &ePower: &a" + power,
+                " &7- &eColor: &a" + color.getName()
+        );
     }
 }

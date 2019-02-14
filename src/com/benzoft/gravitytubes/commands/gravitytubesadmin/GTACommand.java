@@ -12,6 +12,7 @@ public class GTACommand extends AbstractCommand {
     public GTACommand(final GravityTubes gravityTubes, final String commandName) {
         super(gravityTubes, commandName,
                 new Help("help", GTPerm.ADMIN, false, "h"),
+                new GTList("list", GTPerm.ADMIN, false, "li", "l"),
                 new Reload(gravityTubes, "reload", GTPerm.ADMIN, false, "rel", "r")
         );
     }
