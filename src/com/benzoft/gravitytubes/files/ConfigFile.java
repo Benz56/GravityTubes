@@ -9,6 +9,7 @@ public final class ConfigFile {
 
     private final boolean disableFallDamage;
     private final boolean sneakToFall;
+    private final boolean updateCheckerEnabled;
     private final boolean updateCheckerPermissionOnly;
 
     private ConfigFile() {
@@ -16,17 +17,10 @@ public final class ConfigFile {
         final FileConfiguration config = GravityTubes.getPlugin(GravityTubes.class).getConfig();
         sneakToFall = config.getBoolean("SneakToFall", true);
         disableFallDamage = config.getBoolean("DisableFallDamage", true);
+        updateCheckerEnabled = config.getBoolean("UpdateCheckerEnabled", true);
         updateCheckerPermissionOnly = config.getBoolean("UpdateCheckerPermissionOnly", false);
     }
 
-
-    public boolean isDisableFallDamage() {
-        return disableFallDamage;
-    }
-
-    public boolean isSneakToFall() {
-        return sneakToFall;
-    }
 
     public static ConfigFile getInstance() {
         file = file == null ? new ConfigFile() : file;
@@ -37,6 +31,18 @@ public final class ConfigFile {
         gravityTubes.reloadConfig();
         gravityTubes.saveDefaultConfig();
         file = new ConfigFile();
+    }
+
+    public boolean isDisableFallDamage() {
+        return disableFallDamage;
+    }
+
+    public boolean isSneakToFall() {
+        return sneakToFall;
+    }
+
+    public boolean isUpdateCheckerEnabled() {
+        return updateCheckerEnabled;
     }
 
     public boolean isUpdateCheckerPermissionOnly() {

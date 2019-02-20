@@ -18,6 +18,8 @@ SneakToFall: true
 DisableFallDamage: true
 
 # Update Checker.
+# Enable or disable the update checker.
+UpdateCheckerEnabled: true
 # false: All OPs are notified of a new update when they join.
 # true: OPs are only notified if they have the gravitytubes.update permission as well.
 # N.B. any user with the gravitytubes.update permission is notified; OP or not.

@@ -1,10 +1,10 @@
 package com.benzoft.gravitytubes.commands.gravitytubes;
 
 import com.benzoft.gravitytubes.GTPerm;
-import com.benzoft.gravitytubes.commands.AbstractSubCommand;
-import com.benzoft.gravitytubes.files.MessagesFile;
-import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.GravityTube;
+import com.benzoft.gravitytubes.commands.AbstractSubCommand;
+import com.benzoft.gravitytubes.files.GravityTubesFile;
+import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import com.benzoft.gravitytubes.utils.ParticleUtil;
 import org.bukkit.entity.Player;
@@ -31,7 +31,7 @@ public class Settings extends AbstractSubCommand {
                 case "height":
                 case "h":
                     try {
-                        targetTube.setHeight(reset ? 256 - targetTube.getLocation().getBlockY() : Integer.parseInt(args[2]));
+                        targetTube.setHeight(reset ? 20 : Integer.parseInt(args[2]));
                         success = true;
                     } catch (final NumberFormatException ignored) {}
                     break;
@@ -47,9 +47,9 @@ public class Settings extends AbstractSubCommand {
                     break;
                 case "color":
                 case "c":
-                    final float[] color = ParticleUtil.getFromColor(args[2]).getRgb();
+                    final float[] color = reset ? ParticleUtil.GTParticleColor.WHITE.getRGB() : ParticleUtil.getFromColor(args[2]).getRGB();
                     if (color != null) {
-                        targetTube.setColor(args[2]);
+                        targetTube.setColor(reset ? "white" : args[2]);
                         success = true;
                     }
                     break; //TODO stop at top, particle density, pass through blocks.

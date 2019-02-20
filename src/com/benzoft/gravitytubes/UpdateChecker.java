@@ -40,6 +40,7 @@ class UpdateChecker implements Listener {
             public void run() {
                 //The request is executed asynchronously as to not block the main thread.
                 Bukkit.getScheduler().runTaskAsynchronously(javaPlugin, () -> {
+                    if (!ConfigFile.getInstance().isUpdateCheckerEnabled()) return;
                     //Request the current version of your plugin on SpigotMC.
                     try {
                         final HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=" + ID).openConnection();

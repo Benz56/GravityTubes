@@ -19,7 +19,7 @@ public class Create extends AbstractSubCommand {
     public void onCommand(final Player player, final String[] args) {
         final Block target = player.getTargetBlock(null, 20);
 
-        int height = 256 - target.getLocation().getBlockY();
+        int height = 20;
         int power = 5;
 
         if (target.getType() == Material.AIR) {
