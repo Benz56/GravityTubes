@@ -13,6 +13,7 @@ public class GTACommand extends AbstractCommand {
         super(gravityTubes, commandName,
                 new Help("help", GTPerm.ADMIN, false, "h"),
                 new GTList("list", GTPerm.ADMIN, false, "li", "l"),
+                new Teleport("teleport", GTPerm.ADMIN, true, "tele", "tp"),
                 new Reload(gravityTubes, "reload", GTPerm.ADMIN, false, "rel", "r")
         );
     }

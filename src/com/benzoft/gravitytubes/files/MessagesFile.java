@@ -21,6 +21,7 @@ public final class MessagesFile extends AbstractFile {
 
     //Admin
     private String configReload;
+    private String unsafeTeleport;
 
     private MessagesFile() {
         super("messages.yml");
@@ -61,6 +62,7 @@ public final class MessagesFile extends AbstractFile {
         settingSet = (String) add("Messages.GravityTubes.SettingSet", "%prefix% &aThe setting was successfully set to the specified value!");
 
         configReload = (String) add("Messages.Admin.ConfigurationsReloaded", "%prefix% &aConfiguration files successfully reloaded!");
+        unsafeTeleport = (String) add("Messages.Admin.UnsafeTeleport", "%prefix% &cThere is no safe destination at the gravity tube!");
         save();
     }
 
@@ -120,5 +122,9 @@ public final class MessagesFile extends AbstractFile {
     public static void reload() {
         file = new MessagesFile();
         file.setDefaults();
+    }
+
+    public String getUnsafeTeleport() {
+        return unsafeTeleport;
     }
 }
