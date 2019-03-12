@@ -3,9 +3,16 @@ package com.benzoft.gravitytubes;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
+import com.benzoft.gravitytubes.utils.StringUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GravityTask implements Runnable {
 
@@ -19,8 +26,7 @@ public class GravityTask implements Runnable {
                     if (player.isSneaking() && ConfigFile.getInstance().isSneakToFall()) { //TODO slow falling effect or Levitation inverted at 128+.
                         player.removePotionEffect(PotionEffectType.LEVITATION);
                         if (ConfigFile.getInstance().isDisableFallDamage()) player.setFallDistance(0);
-                    } else
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, tube.getPower(), false, false)); //TODO Slow down at top (setting?).
+                    } else gravitate(player, tube);
                 });
             } else {
                 PlayerDataManager.getPlayerData(player).ifPresent(playerData -> {
@@ -32,4 +38,21 @@ public class GravityTask implements Runnable {
             }
         });
     }
+
+    private void gravitate(final Player player, final GravityTube tube) {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, tube.getPower(), false, false)); //TODO Slow down at top (setting?).
+    }
+
+
+    /**
+     * Recursive method adding all entities. E.g. a player riding a pig, riding a boat would return a list containing those three.
+     *
+     * @param entity The entity to check the vehicle for.
+     * @return A list of the vehicle "hierarchy" as mentioned above.
+     */
+    /*private List<Entity> getVehicles(final Entity entity) {
+        final List<Entity> temp = new ArrayList<>(Collections.singletonList(entity));
+        if (entity.getVehicle() != null) temp.addAll(getVehicles(entity.getVehicle()));
+        return temp;
+    }*/
 }
