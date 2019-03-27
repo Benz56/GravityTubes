@@ -3,16 +3,10 @@ package com.benzoft.gravitytubes;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
-import com.benzoft.gravitytubes.utils.StringUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class GravityTask implements Runnable {
 
@@ -33,6 +27,7 @@ public class GravityTask implements Runnable {
                     if (playerData.getGravityTube() != null) {
                         playerData.setGravityTube(null);
                         player.removePotionEffect(PotionEffectType.LEVITATION);
+                        player.setFallDistance(0);
                     }
                 });
             }
