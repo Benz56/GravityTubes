@@ -3,6 +3,7 @@ package com.benzoft.gravitytubes;
 import org.bukkit.entity.Player;
 
 public enum GTPerm {
+    USE("gravitytubes.use"),
     COMMANDS("gravitytubes.commands"),
     COMMANDS_HELP("gravitytubes.commands.help"),
     COMMANDS_CREATE("gravitytubes.commands.create"),

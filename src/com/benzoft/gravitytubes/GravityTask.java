@@ -2,11 +2,16 @@ package com.benzoft.gravitytubes;
 
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
+import com.benzoft.gravitytubes.files.MessagesFile;
+import com.benzoft.gravitytubes.runtimedata.PlayerData;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
+import com.benzoft.gravitytubes.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Optional;
 
 public class GravityTask implements Runnable {
 
@@ -16,21 +21,25 @@ public class GravityTask implements Runnable {
             final GravityTube tube = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.isInTube(player)).findFirst().orElse(null);
             if (tube != null) {
                 PlayerDataManager.getPlayerData(player, true).ifPresent(playerData -> {
+                    final boolean hasPermission = GTPerm.USE.checkPermission(player);
+                    if (!hasPermission && playerData.getGravityTube() == null) {
+                        MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
+                    }
                     playerData.setGravityTube(tube);
-                    if (player.isSneaking() && ConfigFile.getInstance().isSneakToFall()) { //TODO slow falling effect or Levitation inverted at 128+.
-                        player.removePotionEffect(PotionEffectType.LEVITATION);
-                        if (ConfigFile.getInstance().isDisableFallDamage()) player.setFallDistance(0);
-                    } else gravitate(player, tube);
-                });
-            } else {
-                PlayerDataManager.getPlayerData(player).ifPresent(playerData -> {
-                    if (playerData.getGravityTube() != null) {
-                        playerData.setGravityTube(null);
-                        player.removePotionEffect(PotionEffectType.LEVITATION);
-                        player.setFallDistance(0);
+                    if (hasPermission) {
+                        if (player.isSneaking() && ConfigFile.getInstance().isSneakToFall()) { //TODO slow falling effect or Levitation inverted at 128+.
+                            player.removePotionEffect(PotionEffectType.LEVITATION);
+                            if (ConfigFile.getInstance().isDisableFallDamage()) player.setFallDistance(0);
+                        } else gravitate(player, tube);
                     }
                 });
-            }
+            } else PlayerDataManager.getPlayerData(player).ifPresent(playerData -> {
+                if (playerData.getGravityTube() != null) {
+                    playerData.setGravityTube(null);
+                    player.removePotionEffect(PotionEffectType.LEVITATION);
+                    player.setFallDistance(0);
+                }
+            });
         });
     }
 
