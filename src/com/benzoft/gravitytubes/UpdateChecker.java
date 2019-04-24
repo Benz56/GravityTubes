@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-class UpdateChecker implements Listener {
+public class UpdateChecker implements Listener {
 
     private static final int ID = 64624;
     private static final Permission UPDATE_PERM = new Permission(GTPerm.UPDATE.getPermissionString(), PermissionDefault.FALSE);
@@ -76,5 +76,13 @@ class UpdateChecker implements Listener {
                 });
             }
         }.runTaskTimer(javaPlugin, 0, 12_000);
+    }
+
+    public String getLocalPluginVersion() {
+        return localPluginVersion;
+    }
+
+    public String getSpigotPluginVersion() {
+        return spigotPluginVersion;
     }
 }

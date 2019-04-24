@@ -14,9 +14,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class GravityTubes extends JavaPlugin {
 
+    private UpdateChecker updateChecker;
+
     @Override
     public void onEnable() {
-        new UpdateChecker(this).checkForUpdate();
+        updateChecker = new UpdateChecker(this);
+        updateChecker.checkForUpdate();
         new Metrics(this);
         getDataFolder().mkdirs();
         ConfigFile.getInstance();
@@ -36,5 +39,9 @@ public class GravityTubes extends JavaPlugin {
     @Override
     public void onDisable() {
         GravityTubesFile.getInstance().save();
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 }
