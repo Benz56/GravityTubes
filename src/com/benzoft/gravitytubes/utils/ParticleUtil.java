@@ -61,7 +61,7 @@ public final class ParticleUtil {
     }
 
     public static void spawnParticle(final Location location, final GTParticleColor color) {
-        if (Bukkit.getVersion().contains("1.13")) {
+        if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14")) {
             location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null));
         } else location.getWorld().spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null);
     }

@@ -47,7 +47,7 @@ public class Settings extends AbstractSubCommand {
                     break;
                 case "color":
                 case "c":
-                    final float[] color = reset ? ParticleUtil.GTParticleColor.WHITE.getRGB() : ParticleUtil.getFromColor(args[2]).getRGB();
+                    final ParticleUtil.GTParticleColor color = reset ? ParticleUtil.GTParticleColor.WHITE : ParticleUtil.getFromColor(args[2]);
                     if (color != null) {
                         targetTube.setColor(reset ? "white" : args[2]);
                         success = true;
