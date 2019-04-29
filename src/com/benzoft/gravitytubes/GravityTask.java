@@ -3,15 +3,12 @@ package com.benzoft.gravitytubes;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
-import com.benzoft.gravitytubes.runtimedata.PlayerData;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.Optional;
 
 public class GravityTask implements Runnable {
 
@@ -26,6 +23,7 @@ public class GravityTask implements Runnable {
                         MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
                     }
                     playerData.setGravityTube(tube);
+                    playerData.getGravityBar().update();
                     if (hasPermission) {
                         if (player.isSneaking() && ConfigFile.getInstance().isSneakToFall()) { //TODO slow falling effect or Levitation inverted at 128+.
                             player.removePotionEffect(PotionEffectType.LEVITATION);
@@ -36,6 +34,7 @@ public class GravityTask implements Runnable {
             } else PlayerDataManager.getPlayerData(player).ifPresent(playerData -> {
                 if (playerData.getGravityTube() != null) {
                     playerData.setGravityTube(null);
+                    playerData.getGravityBar().remove();
                     player.removePotionEffect(PotionEffectType.LEVITATION);
                     player.setFallDistance(0);
                 }

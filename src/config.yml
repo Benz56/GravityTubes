@@ -17,6 +17,19 @@ SneakToFall: true
 # Should fall damage in Gravity Tubes be disabled when players fall by sneaking?
 DisableFallDamage: true
 
+# You can enable a BossBar to show how far the player is in the Gravity Tube.
+BossBarEnabled: true
+
+# Color: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+BossBarColor: RED
+
+# Style: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+BossBarStyle: SOLID
+
+# Set the message above the BossBar. Supported placeholder:
+# %percentage% - Shows how far the player is in percentage.
+BossBarTitle: '&l%percentage%%'
+
 # Update Checker.
 # Enable or disable the update checker.
 UpdateCheckerEnabled: true

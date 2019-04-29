@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public final class MessageUtil {
 
-    private static String translate(final String string) {
+    public static String translate(final String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 

@@ -55,6 +55,10 @@ public class GravityTube {
         configurationSection.set("power", power);
     }
 
+    public int getHeight() {
+        return height;
+    }
+
     public void setHeight(final int height) {
         this.height = height;
         configurationSection.set("height", height);
