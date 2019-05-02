@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 public class GravityTubes extends JavaPlugin {
 
@@ -39,6 +40,13 @@ public class GravityTubes extends JavaPlugin {
     @Override
     public void onDisable() {
         GravityTubesFile.getInstance().save();
+        PlayerDataManager.getPlayerData().values().forEach(playerData -> {
+            if (playerData.getGravityTube() != null) {
+                playerData.setGravityTube(null);
+                playerData.getGravityBar().remove();
+                Bukkit.getPlayer(playerData.getUniqueId()).removePotionEffect(PotionEffectType.LEVITATION);
+            }
+        });
     }
 
     public UpdateChecker getUpdateChecker() {

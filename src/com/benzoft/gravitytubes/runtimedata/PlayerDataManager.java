@@ -11,6 +11,10 @@ public final class PlayerDataManager {
 
     private static final Map<UUID, PlayerData> playerData = new HashMap<>();
 
+    public static Map<UUID, PlayerData> getPlayerData() {
+        return playerData;
+    }
+
     public static Optional<PlayerData> getPlayerData(final Player player) {
         return getPlayerData(player, false);
     }
