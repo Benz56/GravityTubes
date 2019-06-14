@@ -28,6 +28,16 @@ public final class MessagesFile extends AbstractFile {
         setDefaults();
     }
 
+    public static MessagesFile getInstance() {
+        file = file == null ? new MessagesFile() : file;
+        return file;
+    }
+
+    public static void reload() {
+        file = new MessagesFile();
+        file.setDefaults();
+    }
+
     @Override
     public void setDefaults() {
         setHeader(
@@ -35,6 +45,7 @@ public final class MessagesFile extends AbstractFile {
                 "",
                 "All messages are fully customizable and support color codes, formatting and ASCII symbols.",
                 "Set the Prefix and use %prefix% to add the corresponding prefix to a message.",
+                "Prepend any message with <ActionBar> to send it as an ActionBar message.",
                 "Leave a message blank ('') to disable it.",
                 "",
                 "You can also create messages with Hover and Click events. Syntax options: (Space between comma and quote is NOT allowed)",
@@ -112,16 +123,6 @@ public final class MessagesFile extends AbstractFile {
 
     public String getTubeRemoved() {
         return tubeRemoved;
-    }
-
-    public static MessagesFile getInstance() {
-        file = file == null ? new MessagesFile() : file;
-        return file;
-    }
-
-    public static void reload() {
-        file = new MessagesFile();
-        file.setDefaults();
     }
 
     public String getUnsafeTeleport() {

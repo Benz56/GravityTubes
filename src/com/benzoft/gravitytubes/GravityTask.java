@@ -44,6 +44,7 @@ public class GravityTask implements Runnable {
 
     private void gravitate(final Player player, final GravityTube tube) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, tube.getPower(), false, false)); //TODO Slow down at top (setting?).
+
     }
 
 
