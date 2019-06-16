@@ -6,6 +6,7 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.listeners.BlockBreakListener;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class GravityTubes extends JavaPlugin {
 
+    @Getter
     private UpdateChecker updateChecker;
 
     @Override
@@ -47,9 +49,5 @@ public class GravityTubes extends JavaPlugin {
                 Bukkit.getPlayer(playerData.getUniqueId()).removePotionEffect(PotionEffectType.LEVITATION);
             }
         });
-    }
-
-    public UpdateChecker getUpdateChecker() {
-        return updateChecker;
     }
 }

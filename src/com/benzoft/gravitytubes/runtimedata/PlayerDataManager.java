@@ -1,5 +1,6 @@
 package com.benzoft.gravitytubes.runtimedata;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -9,11 +10,8 @@ import java.util.UUID;
 
 public final class PlayerDataManager {
 
+    @Getter
     private static final Map<UUID, PlayerData> playerData = new HashMap<>();
-
-    public static Map<UUID, PlayerData> getPlayerData() {
-        return playerData;
-    }
 
     public static Optional<PlayerData> getPlayerData(final Player player) {
         return getPlayerData(player, false);

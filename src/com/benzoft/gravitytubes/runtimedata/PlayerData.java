@@ -3,9 +3,13 @@ package com.benzoft.gravitytubes.runtimedata;
 
 import com.benzoft.gravitytubes.GravityBar;
 import com.benzoft.gravitytubes.GravityTube;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
 public class PlayerData {
 
     private final UUID uniqueId;
@@ -15,21 +19,5 @@ public class PlayerData {
     PlayerData(final UUID uniqueId) {
         this.uniqueId = uniqueId;
         gravityBar = new GravityBar(this);
-    }
-
-    public UUID getUniqueId() {
-        return uniqueId;
-    }
-
-    public GravityTube getGravityTube() {
-        return gravityTube;
-    }
-
-    public void setGravityTube(final GravityTube gravityTube) {
-        this.gravityTube = gravityTube;
-    }
-
-    public GravityBar getGravityBar() {
-        return gravityBar;
     }
 }

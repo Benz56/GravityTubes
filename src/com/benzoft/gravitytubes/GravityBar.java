@@ -21,8 +21,8 @@ public class GravityBar {
     void update() {
         if (!ConfigFile.getInstance().isBossBarEnabled() || playerData.getGravityTube() == null) return;
         bossBar = bossBar != null ? bossBar : Bukkit.createBossBar("", ConfigFile.getInstance().getBossBarColor(), ConfigFile.getInstance().getBossBarStyle());
-        final double yLow = playerData.getGravityTube().getLocation().getY();
-        final double yHigh = playerData.getGravityTube().getLocation().getY() + playerData.getGravityTube().getHeight();
+        final double yLow = playerData.getGravityTube().getSourceLocation().getY();
+        final double yHigh = playerData.getGravityTube().getSourceLocation().getY() + playerData.getGravityTube().getHeight();
         double progress = (player.getLocation().getY() - yLow) / (yHigh - yLow);
         progress = progress < 0D || player.isOnGround() ? 0 : progress > 1D ? 1 : progress;
         bossBar.setProgress(progress);

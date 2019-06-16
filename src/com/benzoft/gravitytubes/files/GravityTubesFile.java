@@ -3,21 +3,31 @@ package com.benzoft.gravitytubes.files;
 
 import com.benzoft.gravitytubes.GravityTube;
 import com.benzoft.gravitytubes.utils.LocationUtil;
+import lombok.Getter;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class GravityTubesFile extends AbstractFile {
 
     private static GravityTubesFile file;
+    @Getter
     private List<GravityTube> tubes;
 
     private GravityTubesFile() {
         super("gravitytubes.yml");
         setDefaults();
+    }
+
+    public static GravityTubesFile getInstance() {
+        file = file == null ? new GravityTubesFile() : file;
+        return file;
+    }
+
+    public static void reload() {
+        file = new GravityTubesFile();
     }
 
     @Override
@@ -32,32 +42,19 @@ public final class GravityTubesFile extends AbstractFile {
         tubes = !hasTubes ? new ArrayList<>() : getConfig().getConfigurationSection("GravityTubes").getKeys(false).stream().map(key -> new GravityTube(LocationUtil.stringToLocation(key), getConfig().getConfigurationSection("GravityTubes." + key))).collect(Collectors.toList());
     }
 
-    public List<GravityTube> getTubes() {
-        return tubes;
-    }
-
     public void addTube(final Location location, final int height, final int power) {
         final String locationsString = LocationUtil.locationToString(location);
         getConfig().set("GravityTubes." + locationsString + ".height", height);
         getConfig().set("GravityTubes." + locationsString + ".power", power);
         getConfig().set("GravityTubes." + locationsString + ".color", "white");
         save();
-        tubes.stream().filter(tube -> tube.getLocation().equals(location)).findFirst().ifPresent(tube -> tubes.remove(tube));
+        tubes.stream().filter(tube -> tube.getSourceLocation().equals(location)).findFirst().ifPresent(tube -> tubes.remove(tube));
         tubes.add(new GravityTube(location, getConfig().getConfigurationSection("GravityTubes." + locationsString)));
     }
 
     public void removeTube(final GravityTube gravityTube) {
-        getConfig().set("GravityTubes." + LocationUtil.locationToString(gravityTube.getLocation()), null);
+        getConfig().set("GravityTubes." + LocationUtil.locationToString(gravityTube.getSourceLocation()), null);
         save();
         tubes.remove(gravityTube);
-    }
-
-    public static GravityTubesFile getInstance() {
-        file = file == null ? new GravityTubesFile() : file;
-        return file;
-    }
-
-    public static void reload() {
-        file = new GravityTubesFile();
     }
 }

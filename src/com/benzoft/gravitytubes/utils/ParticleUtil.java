@@ -1,5 +1,6 @@
 package com.benzoft.gravitytubes.utils;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -8,6 +9,17 @@ import java.util.stream.Stream;
 
 public final class ParticleUtil {
 
+    public static GTParticleColor getFromColor(final String color) {
+        return Stream.of(GTParticleColor.values()).filter(gtParticleColor -> gtParticleColor.getColorCode().equalsIgnoreCase(color) || gtParticleColor.toString().equalsIgnoreCase(color)).findFirst().orElse(null);
+    }
+
+    public static void spawnParticle(final Location location, final GTParticleColor color) {
+        if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14")) {
+            location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null));
+        } else location.getWorld().spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null);
+    }
+
+    @Getter
     public enum GTParticleColor {
         BLACK("&0", 0, 0, 0),
         DARK_GREEN("&2", 0, 0.66667F, 0),
@@ -35,10 +47,6 @@ public final class ParticleUtil {
             return toString().substring(0, 1).toUpperCase() + toString().substring(1).toLowerCase();
         }
 
-        public float[] getRGB() {
-            return rgb;
-        }
-
         public float getR() {
             return rgb[0];
         }
@@ -50,19 +58,5 @@ public final class ParticleUtil {
         public float getB() {
             return rgb[2];
         }
-
-        public String getColorCode() {
-            return colorCode;
-        }
-    }
-
-    public static GTParticleColor getFromColor(final String color) {
-        return Stream.of(GTParticleColor.values()).filter(gtParticleColor -> gtParticleColor.getColorCode().equalsIgnoreCase(color) || gtParticleColor.toString().equalsIgnoreCase(color)).findFirst().orElse(null);
-    }
-
-    public static void spawnParticle(final Location location, final GTParticleColor color) {
-        if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14")) {
-            location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null));
-        } else location.getWorld().spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null);
     }
 }

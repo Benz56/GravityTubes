@@ -4,6 +4,8 @@ import com.benzoft.gravitytubes.GTPerm;
 import com.benzoft.gravitytubes.GravityTubes;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter(AccessLevel.PROTECTED)
 public abstract class AbstractCommand implements CommandExecutor {
 
     private final GravityTubes gravityTubes;
@@ -36,12 +39,13 @@ public abstract class AbstractCommand implements CommandExecutor {
 
         if (args.length != 0) {
             for (final AbstractSubCommand subCommand : subCommands) {
-                if (!subCommand.getName().equalsIgnoreCase(args[0]) && subCommand.getAliases().stream().noneMatch(alias -> alias.equalsIgnoreCase(args[0]))) continue;
+                if (!subCommand.getName().equalsIgnoreCase(args[0]) && subCommand.getAliases().stream().noneMatch(alias -> alias.equalsIgnoreCase(args[0])))
+                    continue;
                 if (!subCommand.getPermission().checkPermission(player)) {
                     MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
                     return true;
                 }
-                if (player == null && subCommand.playerOnly()) {
+                if (player == null && subCommand.isPlayerOnly()) {
                     MessageUtil.send(null, MessagesFile.getInstance().getPlayerOnly());
                 } else subCommand.onCommand(player, args);
                 return true;
@@ -53,16 +57,4 @@ public abstract class AbstractCommand implements CommandExecutor {
     }
 
     protected abstract void onCommand(final Player player, final String[] args);
-
-    public GravityTubes getGravityTubes() {
-        return gravityTubes;
-    }
-
-    String getCommandName() {
-        return commandName;
-    }
-
-    protected Set<AbstractSubCommand> getSubCommands() {
-        return subCommands;
-    }
 }

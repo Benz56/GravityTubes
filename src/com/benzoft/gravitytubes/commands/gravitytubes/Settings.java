@@ -18,7 +18,7 @@ public class Settings extends AbstractSubCommand {
 
     @Override
     public void onCommand(final Player player, final String[] args) {
-        final GravityTube targetTube = GravityTubesFile.getInstance().getTubes().stream().filter(tube -> tube.getLocation().equals(player.getTargetBlock(null, 20).getLocation())).findFirst().orElse(null);
+        final GravityTube targetTube = GravityTubesFile.getInstance().getTubes().stream().filter(tube -> tube.getSourceLocation().equals(player.getTargetBlock(null, 20).getLocation())).findFirst().orElse(null);
         if (targetTube != null) {
             if (args.length < 2) {
                 MessageUtil.send(player, MessagesFile.getInstance().getInvalidArguments());

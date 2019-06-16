@@ -4,8 +4,8 @@ import com.benzoft.gravitytubes.GTPerm;
 import com.benzoft.gravitytubes.GravityTubes;
 import com.benzoft.gravitytubes.commands.AbstractSubCommand;
 import com.benzoft.gravitytubes.files.ConfigFile;
-import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
+import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import org.bukkit.entity.Player;
 

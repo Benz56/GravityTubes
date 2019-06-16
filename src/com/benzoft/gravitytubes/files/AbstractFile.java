@@ -1,11 +1,14 @@
 package com.benzoft.gravitytubes.files;
 
 import com.benzoft.gravitytubes.GravityTubes;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 
+@Getter(AccessLevel.PROTECTED)
 abstract class AbstractFile {
 
     private final File file;
@@ -40,14 +43,6 @@ abstract class AbstractFile {
 
     void setHeader(final String... lines) {
         config.options().header(String.join("\n", lines) + "\n");
-    }
-
-    File getFile() {
-        return file;
-    }
-
-    YamlConfiguration getConfig() {
-        return config;
     }
 
     public void save() {

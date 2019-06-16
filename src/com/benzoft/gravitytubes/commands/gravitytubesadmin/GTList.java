@@ -35,7 +35,7 @@ public class GTList extends AbstractSubCommand {
         MessageUtil.send(player, "&9&m&l-----&9 Page: &c" + page + "/" + pages + " &9&m&l--------------");
         final int startIndex = (page - 1) * ENTRIES_PER_PAGE;
         final int endIndex = startIndex + 8 > GravityTubesFile.getInstance().getTubes().size() ? GravityTubesFile.getInstance().getTubes().size() : startIndex + 8;
-        GravityTubesFile.getInstance().getTubes().subList(startIndex, endIndex).forEach(gravityTube -> MessageUtil.sendJSON(player, " &7&l● &e" + LocationUtil.locationToString(gravityTube.getLocation()), gravityTube.getInfo() + "\n\n&7Click to teleport", "/gravitytubesadmin teleport " + LocationUtil.locationToString(gravityTube.getLocation())));
+        GravityTubesFile.getInstance().getTubes().subList(startIndex, endIndex).forEach(gravityTube -> MessageUtil.sendJSON(player, " &7&l● &e" + LocationUtil.locationToString(gravityTube.getSourceLocation()), gravityTube.getInfo() + "\n\n&7Click to teleport", "/gravitytubesadmin teleport " + LocationUtil.locationToString(gravityTube.getSourceLocation())));
         if (page != pages) {
             MessageUtil.sendJSON(player, "&eUse &c/gta list " + (page + 1) + "&e to go to the next page.", "&7Click to go to the next page.", "/gta list " + (page + 1), ClickEvent.Action.RUN_COMMAND);
         }

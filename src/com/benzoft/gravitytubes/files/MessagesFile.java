@@ -1,5 +1,8 @@
 package com.benzoft.gravitytubes.files;
 
+import lombok.Getter;
+
+@Getter
 public final class MessagesFile extends AbstractFile {
 
     private static MessagesFile file;
@@ -75,57 +78,5 @@ public final class MessagesFile extends AbstractFile {
         configReload = (String) add("Messages.Admin.ConfigurationsReloaded", "%prefix% &aConfiguration files successfully reloaded!");
         unsafeTeleport = (String) add("Messages.Admin.UnsafeTeleport", "%prefix% &cThere is no safe destination at the gravity tube!");
         save();
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getInvalidPermission() {
-        return invalidPermission;
-    }
-
-    public String getNoCommands() {
-        return noCommands;
-    }
-
-    public String getPlayerOnly() {
-        return playerOnly;
-    }
-
-    public String getInvalidArguments() {
-        return invalidArguments;
-    }
-
-    public String getConfigReload() {
-        return configReload;
-    }
-
-    public String getCantCreate() {
-        return cantCreate;
-    }
-
-    public String getNoTube() {
-        return noTube;
-    }
-
-    public String getSettingReset() {
-        return settingReset;
-    }
-
-    public String getSettingSet() {
-        return settingSet;
-    }
-
-    public String getTubeCreated() {
-        return tubeCreated;
-    }
-
-    public String getTubeRemoved() {
-        return tubeRemoved;
-    }
-
-    public String getUnsafeTeleport() {
-        return unsafeTeleport;
     }
 }

@@ -2,8 +2,8 @@ package com.benzoft.gravitytubes.commands.gravitytubes;
 
 import com.benzoft.gravitytubes.GTPerm;
 import com.benzoft.gravitytubes.commands.AbstractSubCommand;
-import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
+import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

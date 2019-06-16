@@ -16,7 +16,7 @@ public class Info extends AbstractSubCommand {
 
     @Override
     public void onCommand(final Player player, final String[] args) {
-        final GravityTube target = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.getLocation().equals(player.getTargetBlock(null, 20).getLocation())).findFirst().orElse(null);
+        final GravityTube target = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.getSourceLocation().equals(player.getTargetBlock(null, 20).getLocation())).findFirst().orElse(null);
 
         if (target != null) {
             MessageUtil.send(player, target.getInfo());

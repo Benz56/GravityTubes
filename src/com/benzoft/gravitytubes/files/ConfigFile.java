@@ -1,10 +1,12 @@
 package com.benzoft.gravitytubes.files;
 
 import com.benzoft.gravitytubes.GravityTubes;
+import lombok.Getter;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 
+@Getter
 public final class ConfigFile {
 
     private static ConfigFile file;
@@ -41,37 +43,5 @@ public final class ConfigFile {
         gravityTubes.reloadConfig();
         gravityTubes.saveDefaultConfig();
         file = new ConfigFile();
-    }
-
-    public boolean isDisableFallDamage() {
-        return disableFallDamage;
-    }
-
-    public boolean isSneakToFall() {
-        return sneakToFall;
-    }
-
-    public boolean isUpdateCheckerEnabled() {
-        return updateCheckerEnabled;
-    }
-
-    public boolean isUpdateCheckerPermissionOnly() {
-        return updateCheckerPermissionOnly;
-    }
-
-    public boolean isBossBarEnabled() {
-        return bossBarEnabled;
-    }
-
-    public String getBossBarTitle() {
-        return bossBarTitle;
-    }
-
-    public BarColor getBossBarColor() {
-        return bossBarColor;
-    }
-
-    public BarStyle getBossBarStyle() {
-        return bossBarStyle;
     }
 }

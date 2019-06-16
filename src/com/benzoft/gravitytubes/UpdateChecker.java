@@ -2,6 +2,7 @@ package com.benzoft.gravitytubes;
 
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,16 +21,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+@SuppressWarnings("WeakerAccess") // Suppress as the necesseray access level is not correctly recognized by IntelliJ. (Lombok might be the culprit)
 public class UpdateChecker implements Listener {
 
     private static final int ID = 64624;
     private static final Permission UPDATE_PERM = new Permission(GTPerm.UPDATE.getPermissionString(), PermissionDefault.FALSE);
 
     private final JavaPlugin javaPlugin;
+    @Getter
     private final String localPluginVersion;
+    @Getter
     private String spigotPluginVersion;
 
-    UpdateChecker(final GravityTubes main) {
+    public UpdateChecker(final GravityTubes main) {
         javaPlugin = main;
         localPluginVersion = main.getDescription().getVersion();
     }
@@ -76,13 +80,5 @@ public class UpdateChecker implements Listener {
                 });
             }
         }.runTaskTimer(javaPlugin, 0, 12_000);
-    }
-
-    public String getLocalPluginVersion() {
-        return localPluginVersion;
-    }
-
-    public String getSpigotPluginVersion() {
-        return spigotPluginVersion;
     }
 }
