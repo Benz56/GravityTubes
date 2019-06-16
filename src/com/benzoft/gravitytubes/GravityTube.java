@@ -46,6 +46,10 @@ public class GravityTube {
         }
     }
 
+    boolean hasSourceBlock() {
+        return !sourceLocation.getBlock().isEmpty();
+    }
+
     public void setPower(final int power) {
         this.power = power;
         configurationSection.set("power", power);

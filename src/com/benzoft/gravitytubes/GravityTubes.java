@@ -14,6 +14,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.stream.Collectors;
+
 public class GravityTubes extends JavaPlugin {
 
     @Getter
@@ -30,6 +32,7 @@ public class GravityTubes extends JavaPlugin {
         CommandRegistry.registerCommands(this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new GravityTask(), 0, 1);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().forEach(GravityTube::spawnParticles), 0, 5);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> !gravityTube.hasSourceBlock()).collect(Collectors.toList()).forEach(gravityTube -> GravityTubesFile.getInstance().removeTube(gravityTube)), 0, 40);
         Bukkit.getPluginManager().registerEvents(new BlockBreakListener(), this);
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @EventHandler
