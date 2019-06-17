@@ -4,9 +4,7 @@ import com.benzoft.gravitytubes.GTPerm;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 public abstract class AbstractSubCommand {
@@ -24,4 +22,8 @@ public abstract class AbstractSubCommand {
     }
 
     public abstract void onCommand(final Player player, final String[] args);
+
+    public List<String> onTabComplete(final Player player, final String[] args) {
+        return Collections.emptyList();
+    }
 }

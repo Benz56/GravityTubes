@@ -9,6 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.List;
+
 public class Create extends AbstractSubCommand {
 
     Create(final String name, final GTPerm permission, final boolean playerOnly, final String... aliases) {
@@ -39,5 +42,10 @@ public class Create extends AbstractSubCommand {
 
         MessageUtil.send(player, MessagesFile.getInstance().getTubeCreated());
         GravityTubesFile.getInstance().addTube(target.getLocation(), height, power);
+    }
+
+    @Override
+    public List<String> onTabComplete(final Player player, final String[] args) {
+        return args.length == 1 ? Collections.singletonList("20") : args.length == 2 ? Collections.singletonList("5") : Collections.emptyList();
     }
 }

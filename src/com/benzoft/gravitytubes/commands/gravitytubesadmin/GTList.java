@@ -9,6 +9,10 @@ import com.benzoft.gravitytubes.utils.MessageUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class GTList extends AbstractSubCommand {
 
     private static final int ENTRIES_PER_PAGE = 8;
@@ -39,5 +43,13 @@ public class GTList extends AbstractSubCommand {
         if (page != pages) {
             MessageUtil.sendJSON(player, "&eUse &c/gta list " + (page + 1) + "&e to go to the next page.", "&7Click to go to the next page.", "/gta list " + (page + 1), ClickEvent.Action.RUN_COMMAND);
         }
+    }
+
+    @Override
+    public java.util.List<String> onTabComplete(final Player player, final String[] args) {
+        if (args.length == 1) {
+            final int pages = (int) Math.ceil(((double) GravityTubesFile.getInstance().getTubes().size()) / ((double) ENTRIES_PER_PAGE));
+            return IntStream.range(1, pages == 0 ? 2 : pages + 1).mapToObj(String::valueOf).collect(Collectors.toList());
+        } else return Collections.emptyList();
     }
 }

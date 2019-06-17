@@ -1,7 +1,7 @@
 package com.benzoft.gravitytubes;
 
 import lombok.Getter;
-import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
 
 public enum GTPerm {
     USE("gravitytubes.use"),
@@ -21,7 +21,7 @@ public enum GTPerm {
         this.permissionString = permissionString;
     }
 
-    public boolean checkPermission(final Player player) {
+    public boolean checkPermission(final Permissible player) {
         return player == null || player.isOp() || player.hasPermission(permissionString);
     }
 }
