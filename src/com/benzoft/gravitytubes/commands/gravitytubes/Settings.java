@@ -33,34 +33,32 @@ public class Settings extends AbstractSubCommand {
 
             final boolean reset = args.length == 2;
             boolean success = false;
-            switch (args[1]) {
-                case "height":
-                case "h":
-                    try {
-                        targetTube.setHeight(reset ? 20 : Integer.parseInt(args[2]));
-                        success = true;
-                    } catch (final NumberFormatException ignored) {}
-                    break;
-                case "power":
-                case "p":
-                    try {
-                        if (!reset) {
-                            final int power = Integer.parseInt(args[2]);
-                            targetTube.setPower(power > 127 ? 127 : power < 1 ? 1 : power);
-                        } else targetTube.setPower(10);
-                        success = true;
-                    } catch (final NumberFormatException ignored) {}
-                    break;
-                case "color":
-                case "c":
-                    final ParticleUtil.GTParticleColor color = reset ? ParticleUtil.GTParticleColor.WHITE : ParticleUtil.getFromColor(args[2]);
-                    if (color != null) {
-                        targetTube.setColor(reset ? "white" : args[2]);
-                        success = true;
-                    }
-                    break; //TODO stop at top, particle density, pass through blocks.
-                default:
-                    MessageUtil.send(player, MessagesFile.getInstance().getInvalidArguments());
+            final Attribute attribute = Attribute.fromString(args[1]);
+            if (attribute != null) {
+                switch (attribute) {
+                    case HEIGHT:
+                        try {
+                            targetTube.setHeight(reset ? 20 : Integer.parseInt(args[2]));
+                            success = true;
+                        } catch (final NumberFormatException ignored) {}
+                        break;
+                    case POWER:
+                        try {
+                            if (!reset) {
+                                final int power = Integer.parseInt(args[2]);
+                                targetTube.setPower(power > 127 ? 127 : power < 1 ? 1 : power);
+                            } else targetTube.setPower(10);
+                            success = true;
+                        } catch (final NumberFormatException ignored) {}
+                        break;
+                    case COLOR:
+                        final ParticleUtil.GTParticleColor color = reset ? ParticleUtil.GTParticleColor.WHITE : ParticleUtil.getFromColor(args[2]);
+                        if (color != null) {
+                            targetTube.setColor(reset ? "white" : args[2]);
+                            success = true;
+                        }
+                        break; //TODO stop at top, particle density, pass through blocks.
+                }
             }
             MessageUtil.send(player, success ? reset ? MessagesFile.getInstance().getSettingReset() : MessagesFile.getInstance().getSettingSet() : MessagesFile.getInstance().getInvalidArguments());
         } else MessageUtil.send(player, MessagesFile.getInstance().getNoTube());
