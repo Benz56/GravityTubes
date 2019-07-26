@@ -30,7 +30,7 @@ public class GravityBar {
         bossBar.addPlayer(player);
     }
 
-    void remove() {
+    public void remove() {
         if (bossBar != null) {
             if (player != null && player.isOnline()) bossBar.removePlayer(player);
             bossBar = null;
