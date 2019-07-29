@@ -10,8 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,7 +23,6 @@ import java.net.URL;
 public class UpdateChecker implements Listener {
 
     private static final int ID = 64624;
-    private static final Permission UPDATE_PERM = new Permission(GTPerm.UPDATE.getPermissionString(), PermissionDefault.FALSE);
 
     private final JavaPlugin javaPlugin;
     @Getter
@@ -68,7 +65,7 @@ public class UpdateChecker implements Listener {
                         @EventHandler(priority = EventPriority.MONITOR)
                         public void onPlayerJoin(final PlayerJoinEvent event) {
                             final Player player = event.getPlayer();
-                            if (player.hasPermission(UPDATE_PERM) || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
+                            if (player.hasPermission("gravitytubes.update") || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
                                 MessageUtil.send(event.getPlayer(), "&7[&eGravity Tubes&7] &fA new update is available at:");
                                 MessageUtil.send(event.getPlayer(), "&bhttps://www.spigotmc.org/resources/" + ID + "/updates");
                             }

@@ -31,4 +31,5 @@ permissions:
   gravitytubes.admin:
     description: Permission to use the admins commands.
   gravitytubes.update:
+    default: false
     description: Permission to use receive update notifications.
