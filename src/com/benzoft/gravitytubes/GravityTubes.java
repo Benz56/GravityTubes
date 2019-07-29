@@ -6,12 +6,14 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.listeners.BlockBreakListener;
 import com.benzoft.gravitytubes.listeners.PlayerQuitListener;
+import com.benzoft.gravitytubes.listeners.PlayerToggleFlightListener;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class GravityTubes extends JavaPlugin {
@@ -31,8 +33,7 @@ public class GravityTubes extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new GravityTask(), 0, 1);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().forEach(GravityTube::spawnParticles), 0, 5);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> !gravityTube.hasSourceBlock()).collect(Collectors.toList()).forEach(gravityTube -> GravityTubesFile.getInstance().removeTube(gravityTube)), 0, 40);
-        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        Arrays.asList(new BlockBreakListener(), new PlayerQuitListener(), new PlayerToggleFlightListener()).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
     @Override

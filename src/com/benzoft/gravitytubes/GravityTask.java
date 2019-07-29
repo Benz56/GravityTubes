@@ -19,8 +19,11 @@ public class GravityTask implements Runnable {
             if (tube != null) {
                 PlayerDataManager.getPlayerData(player, true).ifPresent(playerData -> {
                     final boolean hasPermission = GTPerm.USE.checkPermission(player);
-                    if (!hasPermission && playerData.getGravityTube() == null) {
-                        MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
+                    if (playerData.getGravityTube() == null) { //Enter gravity tube.
+                        if (hasPermission) {
+                            playerData.setFlying(player.isFlying());
+                            player.setFlying(false);
+                        } else MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
                     }
                     playerData.setGravityTube(tube);
                     playerData.getGravityBar().update();
@@ -37,6 +40,7 @@ public class GravityTask implements Runnable {
                     playerData.getGravityBar().remove();
                     player.removePotionEffect(PotionEffectType.LEVITATION);
                     player.setFallDistance(0);
+                    if (playerData.isFlying()) player.setFlying(playerData.isFlying());
                 }
             });
         });

@@ -15,6 +15,7 @@ public class PlayerData {
     private final UUID uniqueId;
     private final GravityBar gravityBar;
     private GravityTube gravityTube;
+    private boolean flying;
 
     PlayerData(final UUID uniqueId) {
         this.uniqueId = uniqueId;
