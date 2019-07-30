@@ -65,7 +65,7 @@ public class UpdateChecker implements Listener {
                         @EventHandler(priority = EventPriority.MONITOR)
                         public void onPlayerJoin(final PlayerJoinEvent event) {
                             final Player player = event.getPlayer();
-                            if (player.hasPermission("gravitytubes.update") || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
+                            if (player.hasPermission(GTPerm.UPDATE.getPermissionString()) || (player.isOp() && !ConfigFile.getInstance().isUpdateCheckerPermissionOnly())) {
                                 MessageUtil.send(event.getPlayer(), "&7[&eGravity Tubes&7] &fA new update is available at:");
                                 MessageUtil.send(event.getPlayer(), "&bhttps://www.spigotmc.org/resources/" + ID + "/updates");
                             }

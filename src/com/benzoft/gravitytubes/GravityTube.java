@@ -31,7 +31,8 @@ public class GravityTube {
     }
 
     boolean isInTube(final Entity entity) {
-        return entity.getLocation().getBlockX() == sourceLocation.getBlockX() &&
+        return entity.getWorld().equals(sourceLocation.getWorld()) &&
+                entity.getLocation().getBlockX() == sourceLocation.getBlockX() &&
                 entity.getLocation().getBlockZ() == sourceLocation.getBlockZ() &&
                 entity.getLocation().getY() >= sourceLocation.getBlockY() && entity.getLocation().getY() <= sourceLocation.getBlockY() + height;
     }

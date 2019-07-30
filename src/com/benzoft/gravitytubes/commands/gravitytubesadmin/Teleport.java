@@ -33,7 +33,7 @@ public class Teleport extends AbstractSubCommand {
             return;
         }
 
-        final Location targetTube = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.getSourceLocation().distance(inputLocation) < 1).map(gravityTube -> gravityTube.getSourceLocation().clone().add(0.5, 0, 0.5)).min(Comparator.comparingDouble(loc -> loc.distance(inputLocation))).orElse(null);
+        final Location targetTube = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.getSourceLocation().getWorld().getName().equalsIgnoreCase(args[1].replaceAll(",", "")) && gravityTube.getSourceLocation().distance(inputLocation) < 1).map(gravityTube -> gravityTube.getSourceLocation().clone().add(0.5, 0, 0.5)).min(Comparator.comparingDouble(loc -> loc.distance(inputLocation))).orElse(null);
         if (targetTube != null) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
