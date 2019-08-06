@@ -12,6 +12,12 @@ import org.bukkit.potion.PotionEffectType;
 
 public class GravityTask implements Runnable {
 
+    private final GravityTubes gravityTubes;
+
+    GravityTask(final GravityTubes gravityTubes) {
+        this.gravityTubes = gravityTubes;
+    }
+
     @Override
     public void run() {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
@@ -21,6 +27,7 @@ public class GravityTask implements Runnable {
                     final boolean hasPermission = GTPerm.USE.checkPermission(player);
                     if (playerData.getGravityTube() == null) { //Enter gravity tube.
                         if (hasPermission) {
+                            gravityTubes.getNoCheatPlus().ifPresent(noCheatPlus -> noCheatPlus.setExemptPlayer(player, true));
                             playerData.setFlying(player.isFlying());
                             player.setFlying(false);
                         } else MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
