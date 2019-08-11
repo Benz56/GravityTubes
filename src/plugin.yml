@@ -1,11 +1,12 @@
 name: GravityTubes
-version: 1.8.0
+version: 1.8.1
 api-version: "1.13"
 author: Benz56
 description: Messes with gravity!
 main: com.benzoft.gravitytubes.GravityTubes
 softdepend:
   - NoCheatPlus
+  - Matrix
 commands:
   gravitytubes:
     usage: /gravitytubes

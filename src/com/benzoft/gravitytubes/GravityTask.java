@@ -27,7 +27,7 @@ public class GravityTask implements Runnable {
                     final boolean hasPermission = GTPerm.USE.checkPermission(player);
                     if (playerData.getGravityTube() == null) { //Enter gravity tube.
                         if (hasPermission) {
-                            gravityTubes.getNoCheatPlus().ifPresent(noCheatPlus -> noCheatPlus.setExemptPlayer(player, true));
+                            gravityTubes.getAntiCheatHook().ifPresent(antiCheatHook -> antiCheatHook.setExempt(player, true));
                             playerData.setFlying(player.isFlying());
                             player.setFlying(false);
                         } else MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());

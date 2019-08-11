@@ -4,8 +4,9 @@ import com.benzoft.gravitytubes.commands.CommandRegistry;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
-import com.benzoft.gravitytubes.hooks.IHook;
-import com.benzoft.gravitytubes.hooks.NoCheatPlus;
+import com.benzoft.gravitytubes.hooks.AntiCheatHook;
+import com.benzoft.gravitytubes.hooks.MatrixHook;
+import com.benzoft.gravitytubes.hooks.NoCheatPlusHook;
 import com.benzoft.gravitytubes.listeners.BlockBreakListener;
 import com.benzoft.gravitytubes.listeners.PlayerQuitListener;
 import com.benzoft.gravitytubes.listeners.PlayerToggleFlightListener;
@@ -24,7 +25,7 @@ public class GravityTubes extends JavaPlugin {
 
     @Getter
     private UpdateChecker updateChecker;
-    private NoCheatPlus noCheatPlus;
+    private AntiCheatHook antiCheatHook;
 
     @Override
     public void onEnable() {
@@ -38,8 +39,9 @@ public class GravityTubes extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new GravityTask(this), 0, 1);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().forEach(GravityTube::spawnParticles), 0, 5);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> !gravityTube.hasSourceBlock()).collect(Collectors.toList()).forEach(gravityTube -> GravityTubesFile.getInstance().removeTube(gravityTube)), 10, 40);
-        noCheatPlus = Bukkit.getPluginManager().isPluginEnabled("NoCheatPlus") ? new NoCheatPlus(this) : null;
-        Stream.of(new BlockBreakListener(), new PlayerQuitListener(), new PlayerToggleFlightListener(), noCheatPlus).filter(Objects::nonNull).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("NoCheatPlus") ? new NoCheatPlusHook(this) : null;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("Matrix") ? new MatrixHook() : null;
+        Stream.of(new BlockBreakListener(), new PlayerQuitListener(), new PlayerToggleFlightListener(), antiCheatHook).filter(Objects::nonNull).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
     @Override
@@ -52,10 +54,10 @@ public class GravityTubes extends JavaPlugin {
                 Bukkit.getPlayer(playerData.getUniqueId()).removePotionEffect(PotionEffectType.LEVITATION);
             }
         });
-        getNoCheatPlus().ifPresent(IHook::onDisable);
+        getAntiCheatHook().ifPresent(AntiCheatHook::onDisable);
     }
 
-    Optional<NoCheatPlus> getNoCheatPlus() {
-        return Optional.ofNullable(noCheatPlus);
+    Optional<AntiCheatHook> getAntiCheatHook() {
+        return Optional.ofNullable(antiCheatHook);
     }
 }
