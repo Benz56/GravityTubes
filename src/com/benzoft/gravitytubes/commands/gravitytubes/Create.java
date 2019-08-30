@@ -41,7 +41,7 @@ public class Create extends AbstractSubCommand {
         }
 
         MessageUtil.send(player, MessagesFile.getInstance().getTubeCreated());
-        GravityTubesFile.getInstance().addTube(target.getLocation(), height, power);
+        GravityTubesFile.getInstance().addTube(player.getUniqueId(), target.getLocation(), height, power);
     }
 
     @Override
