@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public final class GravityTubesFile extends AbstractFile {
 
     public void addTube(final UUID owner, final Location location, final int height, final int power) {
         final String locationsString = LocationUtil.locationToString(location);
-        getConfig().set("GravityTubes." + locationsString + ".owner", owner.toString());
+        getConfig().set("GravityTubes." + locationsString + ".owners", Collections.singletonList(owner.toString()));
         getConfig().set("GravityTubes." + locationsString + ".height", height);
         getConfig().set("GravityTubes." + locationsString + ".power", power);
         getConfig().set("GravityTubes." + locationsString + ".color", "white");
