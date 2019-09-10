@@ -7,13 +7,19 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GravityTube {
 
     @Getter
     private final Location sourceLocation;
     private final ConfigurationSection configurationSection;
+    @Getter
+    private final List<String> owners;
     @Getter
     private int height;
     @Getter
@@ -28,6 +34,7 @@ public class GravityTube {
         power = configurationSection.getInt("power", 10);
         color = ParticleUtil.getFromColor(configurationSection.getString("color", "white"));
         color = color == null ? ParticleUtil.GTParticleColor.WHITE : color;
+        owners = configurationSection.getStringList("owners");
     }
 
     boolean isInTube(final Entity entity) {
@@ -67,12 +74,13 @@ public class GravityTube {
     }
 
     public String getInfo() {
-        return String.join("&r\n",
+        return Stream.of(
                 "&9&m&l---&e Gravity Tube Info &9&m&l--------",
                 " &7- &eLocation: &a" + LocationUtil.locationToString(sourceLocation),
                 " &7- &eHeight: &a" + height,
                 " &7- &ePower: &a" + power,
-                " &7- &eColor: &a" + color.getName()
-        );
+                " &7- &eColor: &a" + color.getName(),
+                !owners.isEmpty() ? " &7- &eOwners: &a" : null,
+                !owners.isEmpty() ? owners.stream().map(owner -> "&7    ● &at" + owner).collect(Collectors.joining("\n")) : null).filter(Objects::nonNull).collect(Collectors.joining("&r\n"));
     }
 }

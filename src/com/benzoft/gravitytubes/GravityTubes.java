@@ -4,6 +4,7 @@ import com.benzoft.gravitytubes.commands.CommandRegistry;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
+import com.benzoft.gravitytubes.hooks.AACHook;
 import com.benzoft.gravitytubes.hooks.AntiCheatHook;
 import com.benzoft.gravitytubes.hooks.MatrixHook;
 import com.benzoft.gravitytubes.hooks.NoCheatPlusHook;
@@ -41,6 +42,7 @@ public class GravityTubes extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> !gravityTube.hasSourceBlock()).collect(Collectors.toList()).forEach(gravityTube -> GravityTubesFile.getInstance().removeTube(gravityTube)), 10, 40);
         antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("NoCheatPlus") ? new NoCheatPlusHook(this) : null;
         antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("Matrix") ? new MatrixHook() : null;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("AAC") ? new AACHook() : null;
         Stream.of(new BlockBreakListener(), new PlayerQuitListener(), new PlayerToggleFlightListener(), antiCheatHook).filter(Objects::nonNull).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
