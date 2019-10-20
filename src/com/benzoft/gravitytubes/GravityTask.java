@@ -5,22 +5,22 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.runtimedata.PlayerDataManager;
 import com.benzoft.gravitytubes.utils.MessageUtil;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@RequiredArgsConstructor
 public class GravityTask implements Runnable {
 
     private final GravityTubes gravityTubes;
 
-    GravityTask(final GravityTubes gravityTubes) {
-        this.gravityTubes = gravityTubes;
-    }
-
     @Override
     public void run() {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+            if (player.getGameMode() == GameMode.SPECTATOR) return;
             final GravityTube tube = GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> gravityTube.isInTube(player)).findFirst().orElse(null);
             if (tube != null) {
                 PlayerDataManager.getPlayerData(player, true).ifPresent(playerData -> {
