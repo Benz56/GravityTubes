@@ -8,9 +8,11 @@ import com.benzoft.gravitytubes.utils.MessageUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Create extends AbstractSubCommand {
 
@@ -31,9 +33,22 @@ public class Create extends AbstractSubCommand {
         }
 
         try {
-            if (args.length > 1) height = Integer.parseInt(args[1]);
+            if (args.length > 1) {
+                final Integer permissibleHeight = player.getEffectivePermissions().stream()
+                        .map(PermissionAttachmentInfo::getPermission)
+                        .filter(permission -> permission.startsWith(GTPerm.COMMANDS_SETTINGS.getPermissionString() + ".height."))
+                        .flatMap(permission -> {
+                            try {
+                                return Stream.of(Integer.parseInt(permission.substring(permission.lastIndexOf(".") + 1)));
+                            } catch (final NumberFormatException e) {
+                                return Stream.empty();
+                            }
+                        }).max(Integer::compareTo).orElse(Integer.MAX_VALUE);
+
+                height = Math.max(1, Math.min(Integer.parseInt(args[1]), permissibleHeight));
+            }
             if (args.length > 2) power = Integer.parseInt(args[2]);
-            power = power > 127 ? 127 : power;
+            power = Math.min(power, 127);
             if (height < 1 || power < 1) throw new NumberFormatException();
         } catch (final NumberFormatException e) {
             MessageUtil.send(player, MessagesFile.getInstance().getInvalidArguments());
