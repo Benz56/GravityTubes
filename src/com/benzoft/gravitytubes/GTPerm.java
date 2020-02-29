@@ -21,7 +21,11 @@ public enum GTPerm {
         this.permissionString = permissionString;
     }
 
-    public boolean checkPermission(final Permissible player) {
-        return player == null || player.isOp() || player.hasPermission(permissionString);
+    public boolean checkPermission(final Permissible permissible) {
+        return permissible == null || permissible.isOp() || permissible.hasPermission(permissionString);
+    }
+
+    public boolean checkPermission(final Permissible permissible, final String extension) {
+        return permissible == null || permissible.isOp() || permissible.hasPermission(extension == null || extension.isEmpty() ? permissionString : permissionString + "." + extension);
     }
 }

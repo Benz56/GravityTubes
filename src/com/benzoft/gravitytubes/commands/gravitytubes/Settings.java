@@ -7,7 +7,9 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import com.benzoft.gravitytubes.utils.ParticleUtil;
+import lombok.Getter;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,18 +37,31 @@ public class Settings extends AbstractSubCommand {
             boolean success = false;
             final Attribute attribute = Attribute.fromString(args[1]);
             if (attribute != null) {
+                if (!GTPerm.COMMANDS_SETTINGS.checkPermission(player) && !GTPerm.COMMANDS_SETTINGS.checkPermission(player, attribute.getFullName())) {
+                    MessageUtil.send(player, MessagesFile.getInstance().getInvalidPermission());
+                    return;
+                }
                 switch (attribute) {
                     case HEIGHT:
                         try {
-                            targetTube.setHeight(reset ? 20 : Integer.parseInt(args[2]));
+                            final Integer permissibleHeight = player.getEffectivePermissions().stream()
+                                    .map(PermissionAttachmentInfo::getPermission)
+                                    .filter(permission -> permission.startsWith(GTPerm.COMMANDS_SETTINGS.getPermissionString() + ".height."))
+                                    .flatMap(permission -> {
+                                        try {
+                                            return Stream.of(Integer.parseInt(permission.substring(permission.lastIndexOf(".") + 1)));
+                                        } catch (final NumberFormatException e) {
+                                            return Stream.empty();
+                                        }
+                                    }).max(Integer::compareTo).orElse(Integer.MAX_VALUE);
+                            targetTube.setHeight(reset ? Math.min(permissibleHeight, 20) : Math.max(1, Math.min(Integer.parseInt(args[2]), permissibleHeight)));
                             success = true;
                         } catch (final NumberFormatException ignored) {}
                         break;
                     case POWER:
                         try {
                             if (!reset) {
-                                final int power = Integer.parseInt(args[2]);
-                                targetTube.setPower(power > 127 ? 127 : power < 1 ? 1 : power);
+                                targetTube.setPower(Math.min(127, Math.max(1, Integer.parseInt(args[2]))));
                             } else targetTube.setPower(10);
                             success = true;
                         } catch (final NumberFormatException ignored) {}
@@ -67,10 +82,10 @@ public class Settings extends AbstractSubCommand {
     @Override
     public List<String> onTabComplete(final Player player, final String[] args) {
         if (args.length == 1) {
-            return Stream.of(Attribute.values()).map(Attribute::getPath).filter(attribute -> attribute.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+            return Stream.of(Attribute.values()).map(Attribute::getFullName).filter(attribute -> attribute.toLowerCase().startsWith(args[0].toLowerCase()) && (GTPerm.COMMANDS_SETTINGS.checkPermission(player) || GTPerm.COMMANDS_SETTINGS.checkPermission(player, attribute))).collect(Collectors.toList());
         } else if (args.length > 1) {
             final Attribute attribute = Attribute.fromString(args[0]);
-            if (attribute != null) {
+            if (attribute != null && (GTPerm.COMMANDS_SETTINGS.checkPermission(player) || GTPerm.COMMANDS_SETTINGS.checkPermission(player, attribute.getFullName()))) {
                 switch (attribute) {
                     case HEIGHT:
                         return args.length == 2 ? Collections.singletonList("20") : Collections.emptyList();
@@ -89,20 +104,17 @@ public class Settings extends AbstractSubCommand {
         POWER("power", "p"),
         COLOR("color", "c");
 
-        private final String path;
+        @Getter
+        private final String fullName;
         private final List<String> identifiers;
 
-        Attribute(final String path, final String... aliases) {
-            this.path = path;
+        Attribute(final String fullName, final String... aliases) {
+            this.fullName = fullName;
             identifiers = Arrays.asList(aliases);
         }
 
         private static Attribute fromString(final String s) {
-            return Stream.of(Attribute.values()).filter(attribute -> attribute.path.equalsIgnoreCase(s) || attribute.identifiers.contains(s.toLowerCase())).findFirst().orElse(null);
-        }
-
-        private String getPath() {
-            return path;
+            return Stream.of(Attribute.values()).filter(attribute -> attribute.fullName.equalsIgnoreCase(s) || attribute.identifiers.contains(s.toLowerCase())).findFirst().orElse(null);
         }
     }
 }
