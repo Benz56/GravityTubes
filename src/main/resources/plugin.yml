@@ -1,0 +1,40 @@
+name: GravityTubes
+version: ${project.version}
+api-version: "1.13"
+author: Benz56
+description: Messes with gravity!
+main: com.benzoft.gravitytubes.GravityTubes
+softdepend:
+  - NoCheatPlus
+  - Matrix
+  - AAC
+  - CombatLogX
+commands:
+  gravitytubes:
+    usage: /gravitytubes
+    description: User commands.
+    aliases: [gravitytube, gravity, gtube, gtubes, gt]
+  gravitytubesadmin:
+    usage: /gravitytubesadmin
+    description: Admin commands.
+    aliases: [gravitytubeadmin, gravityadmin, gtubeadmin, gta]
+permissions:
+  gravitytubes.use:
+    description: Permission to use gravity tubes.
+  gravitytubes.commands:
+    description: Permission to use commands.
+  gravitytubes.commands.help:
+    description: Permission to use the help command.
+  gravitytubes.commands.create:
+    description: Permission to use the create command.
+  gravitytubes.commands.delete:
+    description: Permission to use the delete command.
+  gravitytubes.commands.settings:
+    description: Permission to use the settings command.
+  gravitytubes.commands.info:
+    description: Permission to use the info command.
+  gravitytubes.admin:
+    description: Permission to use the admins commands.
+  gravitytubes.update:
+    default: false
+    description: Permission to use receive update notifications.
