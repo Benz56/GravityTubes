@@ -5,10 +5,7 @@ import com.benzoft.gravitytubes.commands.CommandRegistry;
 import com.benzoft.gravitytubes.files.ConfigFile;
 import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
-import com.benzoft.gravitytubes.hooks.AACHook;
-import com.benzoft.gravitytubes.hooks.AntiCheatHook;
-import com.benzoft.gravitytubes.hooks.MatrixHook;
-import com.benzoft.gravitytubes.hooks.NoCheatPlusHook;
+import com.benzoft.gravitytubes.hooks.*;
 import com.benzoft.gravitytubes.listeners.BlockBreakListener;
 import com.benzoft.gravitytubes.listeners.PlayerQuitListener;
 import com.benzoft.gravitytubes.listeners.PlayerToggleFlightListener;
@@ -43,9 +40,10 @@ public class GravityTubes extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new GravityTask(this), 0, 1);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().forEach(GravityTube::spawnParticles), 0, 5);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> GravityTubesFile.getInstance().getTubes().stream().filter(gravityTube -> !gravityTube.hasSourceBlock()).collect(Collectors.toList()).forEach(gravityTube -> GravityTubesFile.getInstance().removeTube(gravityTube)), 10, 40);
-        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("NoCheatPlus") ? new NoCheatPlusHook(this) : null;
-        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("Matrix") ? new MatrixHook() : null;
-        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("AAC") ? new AACHook() : null;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("NoCheatPlus") ? new NoCheatPlusHook(this) : antiCheatHook;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("Matrix") ? new MatrixHook() : antiCheatHook;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("AAC") ? new AACHook() : antiCheatHook;
+        antiCheatHook = Bukkit.getPluginManager().isPluginEnabled("Spartan") ? new SpartanHook() : antiCheatHook;
         try {
             if (Bukkit.getPluginManager().isPluginEnabled("CombatLogX")) {
                 combatLogXPlugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");

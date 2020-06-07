@@ -19,7 +19,11 @@ public abstract class AntiCheatHook implements Listener {
 
     private final Set<UUID> exemptedPlayers = new HashSet<>();
 
-    public abstract void setExempt(final Player player, final boolean exempt);
+    public void setExempt(final Player player, final boolean exempt) {
+        if (exempt) {
+            exemptedPlayers.add(player.getUniqueId());
+        } else exemptedPlayers.remove(player.getUniqueId());
+    }
 
     public void onDisable() {
         exemptedPlayers.stream().map(Bukkit::getPlayer).forEach(player -> setExempt(player, false));

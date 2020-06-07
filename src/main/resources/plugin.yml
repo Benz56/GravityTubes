@@ -9,6 +9,7 @@ softdepend:
   - Matrix
   - AAC
   - CombatLogX
+  - Spartan
 commands:
   gravitytubes:
     usage: /gravitytubes
