@@ -15,6 +15,8 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Change this path to where you have the jar stored locally to compile the plugin. -->
+        <libraries.dir>C:/Users/bemma/Servers/libs/</libraries.dir>
     </properties>
     <url>benzoft.com</url>
 
@@ -119,8 +121,7 @@
             <artifactId>matrix</artifactId>
             <version>5.1.6</version>
             <scope>system</scope>
-            <!-- Change this path to where you have the jar stored locally to compile the plugin. -->
-            <systemPath>C:/Users/bemma/Servers/libs/Matrix_4.3.5_release.jar</systemPath>
+            <systemPath>${libraries.dir}Matrix_4.3.5_release.jar</systemPath>
         </dependency>
         <dependency>
             <!-- spigotmc.org/resources/25638 -->
@@ -128,8 +129,7 @@
             <artifactId>spartan</artifactId>
             <version>Universal</version>
             <scope>system</scope>
-            <!-- Change this path to where you have the jar stored locally to compile the plugin. -->
-            <systemPath>C:/Users/bemma/Servers/libs/SpartanAPI.jar</systemPath>
+            <systemPath>${libraries.dir}SpartanAPI.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
