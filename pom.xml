@@ -6,7 +6,7 @@
 
     <groupId>com.benzoft</groupId>
     <artifactId>gravitytubes</artifactId>
-    <version>1.10.5</version>
+    <version>1.10.6</version>
     <packaging>jar</packaging>
 
     <name>GravityTubes</name>
@@ -15,6 +15,8 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Change this path to where you have the jar stored locally to compile the plugin. -->
+        <libraries.dir>C:/Users/bemma/Servers/libs/</libraries.dir>
     </properties>
     <url>benzoft.com</url>
 
@@ -26,8 +28,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>\${java.version}</source>
-                    <target>\${java.version}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -57,17 +59,77 @@
 
     <repositories>
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>janmm14-public</id>
+            <url>https://repo.janmm14.de/repository/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>com.SirBlobman.combatlogx</groupId>
-            <artifactId>CombatLogX-API</artifactId>
-            <version>10.0.0.0-SNAPSHOT</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.13-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.13-SNAPSHOT</version>
+            <type>javadoc</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.SirBlobman</groupId>
+            <artifactId>CombatLogX</artifactId>
+            <version>10.0.0.0-beta2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.janmm14</groupId>
+            <artifactId>aac-api</artifactId>
+            <version>4.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <!-- Free version at discord.com/invite/pEvY55J -->
+            <groupId>me.rerere</groupId>
+            <artifactId>matrix</artifactId>
+            <version>5.1.6</version>
+            <scope>system</scope>
+            <systemPath>${libraries.dir}Matrix_4.3.5_release.jar</systemPath>
+        </dependency>
+        <dependency>
+            <!-- spigotmc.org/resources/25638 -->
+            <groupId>me.vagdedes</groupId>
+            <artifactId>spartan</artifactId>
+            <version>Universal</version>
+            <scope>system</scope>
+            <systemPath>${libraries.dir}SpartanAPI.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
