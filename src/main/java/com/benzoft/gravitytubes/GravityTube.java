@@ -1,17 +1,20 @@
 package com.benzoft.gravitytubes;
 
-import com.benzoft.gravitytubes.utils.LocationUtil;
-import com.benzoft.gravitytubes.utils.ParticleUtil;
-import lombok.Getter;
-import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
+
+import com.benzoft.gravitytubes.utils.LocationUtil;
+import com.benzoft.gravitytubes.utils.ParticleUtil;
+
+import lombok.Getter;
 
 public class GravityTube {
 
@@ -25,7 +28,8 @@ public class GravityTube {
     @Getter
     private int power;
     private ParticleUtil.GTParticleColor color;
-
+    @Getter
+    private Particle type;
 
     public GravityTube(final Location sourceLocation, final ConfigurationSection configurationSection) {
         this.sourceLocation = sourceLocation;
@@ -33,7 +37,7 @@ public class GravityTube {
         height = configurationSection.getInt("height", 256 - sourceLocation.getBlockY());
         power = configurationSection.getInt("power", 10);
         color = ParticleUtil.getFromColor(configurationSection.getString("color", "white"));
-        color = color == null ? ParticleUtil.GTParticleColor.WHITE : color;
+        type = Particle.valueOf(configurationSection.getString("type", "spell_mob").toUpperCase());
         owners = configurationSection.getStringList("owners");
     }
 
@@ -50,7 +54,7 @@ public class GravityTube {
             xOffset = ThreadLocalRandom.current().nextDouble(1);
             zOffset = ThreadLocalRandom.current().nextDouble(1);
             if (ThreadLocalRandom.current().nextDouble(1) >= 0.2) //TODO Particle density setting.
-                ParticleUtil.spawnParticle(new Location(sourceLocation.getWorld(), sourceLocation.getBlockX() + xOffset, y, sourceLocation.getBlockZ() + zOffset), color);
+                ParticleUtil.spawnParticle(type, new Location(sourceLocation.getWorld(), sourceLocation.getBlockX() + xOffset, y, sourceLocation.getBlockZ() + zOffset), color);
         }
     }
 
@@ -71,6 +75,11 @@ public class GravityTube {
     public void setColor(final String color) {
         this.color = ParticleUtil.getFromColor(color);
         configurationSection.set("color", color);
+    }
+    
+    public void setType(final Particle type) {
+        this.type = type;
+        configurationSection.set("type", type.name());
     }
 
     public String getInfo() {

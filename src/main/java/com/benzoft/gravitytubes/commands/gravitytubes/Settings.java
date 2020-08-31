@@ -1,5 +1,15 @@
 package com.benzoft.gravitytubes.commands.gravitytubes;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+
 import com.benzoft.gravitytubes.GTPerm;
 import com.benzoft.gravitytubes.GravityTube;
 import com.benzoft.gravitytubes.commands.AbstractSubCommand;
@@ -7,15 +17,8 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import com.benzoft.gravitytubes.utils.ParticleUtil;
-import lombok.Getter;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import lombok.Getter;
 
 
 public class Settings extends AbstractSubCommand {
@@ -68,11 +71,25 @@ public class Settings extends AbstractSubCommand {
                         break;
                     case COLOR:
                         final ParticleUtil.GTParticleColor color = reset ? ParticleUtil.GTParticleColor.WHITE : ParticleUtil.getFromColor(args[2]);
-                        if (color != null) {
-                            targetTube.setColor(reset ? "white" : args[2]);
-                            success = true;
+                        if (ParticleUtil.isColorable(targetTube.getType())) {
+                            if (color != null) {
+                                targetTube.setColor(reset ? "white" : args[2]);
+                                success = true;
+                            }
+                        } else {
+                            MessageUtil.send(player, MessagesFile.getInstance().getSettingInvalid());
+                            return;
                         }
                         break; //TODO stop at top, particle density, pass through blocks.
+                    case TYPE:
+                        try {
+                            final Particle type = reset ? Particle.SPELL_MOB : Particle.valueOf(args[2].toUpperCase());
+                            if (type != null && ParticleUtil.isSupported(type)) {
+                                targetTube.setType(reset ? Particle.SPELL_MOB : Particle.valueOf(args[2].toUpperCase()));
+                                success = true;
+                            }
+                        } catch (final IllegalArgumentException ignored) {}
+                        break;
                 }
             }
             MessageUtil.send(player, success ? reset ? MessagesFile.getInstance().getSettingReset() : MessagesFile.getInstance().getSettingSet() : MessagesFile.getInstance().getInvalidArguments());
@@ -93,6 +110,8 @@ public class Settings extends AbstractSubCommand {
                         return args.length == 2 ? Collections.singletonList("10") : Collections.emptyList();
                     case COLOR:
                         return args.length == 2 ? Stream.of(ParticleUtil.GTParticleColor.values()).map(ParticleUtil.GTParticleColor::getName).filter(color -> color.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList()) : Collections.emptyList();
+                    case TYPE:
+                        return args.length == 2 ? Stream.of(Particle.values()).filter(value -> ParticleUtil.isSupported(value)).map(Particle::name).filter(type -> type.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList()) : Collections.emptyList();
                 }
             }
         }
@@ -102,7 +121,8 @@ public class Settings extends AbstractSubCommand {
     private enum Attribute {
         HEIGHT("height", "h"),
         POWER("power", "p"),
-        COLOR("color", "c");
+        COLOR("color", "c"),
+        TYPE("type", "t");
 
         @Getter
         private final String fullName;

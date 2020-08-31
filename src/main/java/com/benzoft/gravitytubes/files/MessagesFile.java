@@ -21,6 +21,7 @@ public final class MessagesFile extends AbstractFile {
     private String noTube;
     private String settingReset;
     private String settingSet;
+    private String settingInvalid;
     private String inCombat;
 
     //Admin
@@ -75,6 +76,7 @@ public final class MessagesFile extends AbstractFile {
         noTube = (String) add("Messages.GravityTubes.NoTube", "%prefix% &cNo gravity tube found at the targeted location!");
         settingReset = (String) add("Messages.GravityTubes.SettingReset", "%prefix% &aThe setting was set to the default!");
         settingSet = (String) add("Messages.GravityTubes.SettingSet", "%prefix% &aThe setting was successfully set to the specified value!");
+        settingInvalid = (String) add("Messages.GravityTubes.SettingInvalid", "%prefix% &cThe setting was not available for this tube!");
         inCombat = (String) add("Messages.GravityTubes.InCombat", "%prefix% &cYou can't use Gravity Tubes when in combat!");
 
         configReload = (String) add("Messages.Admin.ConfigurationsReloaded", "%prefix% &aConfiguration files successfully reloaded!");
