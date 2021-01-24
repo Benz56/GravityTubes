@@ -1,15 +1,5 @@
 package com.benzoft.gravitytubes.commands.gravitytubes;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-
 import com.benzoft.gravitytubes.GTPerm;
 import com.benzoft.gravitytubes.GravityTube;
 import com.benzoft.gravitytubes.commands.AbstractSubCommand;
@@ -17,8 +7,16 @@ import com.benzoft.gravitytubes.files.GravityTubesFile;
 import com.benzoft.gravitytubes.files.MessagesFile;
 import com.benzoft.gravitytubes.utils.MessageUtil;
 import com.benzoft.gravitytubes.utils.ParticleUtil;
-
 import lombok.Getter;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Settings extends AbstractSubCommand {
@@ -47,7 +45,7 @@ public class Settings extends AbstractSubCommand {
                 switch (attribute) {
                     case HEIGHT:
                         try {
-                            final Integer permissibleHeight = player.getEffectivePermissions().stream()
+                            final int permissibleHeight = player.getEffectivePermissions().stream()
                                     .map(PermissionAttachmentInfo::getPermission)
                                     .filter(permission -> permission.startsWith(GTPerm.COMMANDS_SETTINGS.getPermissionString() + ".height."))
                                     .flatMap(permission -> {
@@ -84,9 +82,12 @@ public class Settings extends AbstractSubCommand {
                     case TYPE:
                         try {
                             final Particle type = reset ? Particle.SPELL_MOB : Particle.valueOf(args[2].toUpperCase());
-                            if (type != null && ParticleUtil.isSupported(type)) {
+                            if (ParticleUtil.isSupported(type)) {
                                 targetTube.setType(reset ? Particle.SPELL_MOB : Particle.valueOf(args[2].toUpperCase()));
                                 success = true;
+                            } else {
+                                MessageUtil.send(player, MessagesFile.getInstance().getSettingInvalid());
+                                return;
                             }
                         } catch (final IllegalArgumentException ignored) {}
                         break;
@@ -111,7 +112,7 @@ public class Settings extends AbstractSubCommand {
                     case COLOR:
                         return args.length == 2 ? Stream.of(ParticleUtil.GTParticleColor.values()).map(ParticleUtil.GTParticleColor::getName).filter(color -> color.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList()) : Collections.emptyList();
                     case TYPE:
-                        return args.length == 2 ? Stream.of(Particle.values()).filter(value -> ParticleUtil.isSupported(value)).map(Particle::name).filter(type -> type.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList()) : Collections.emptyList();
+                        return args.length == 2 ? Stream.of(Particle.values()).filter(ParticleUtil::isSupported).map(Particle::name).filter(type -> type.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList()) : Collections.emptyList();
                 }
             }
         }

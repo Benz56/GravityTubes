@@ -1,34 +1,31 @@
 package com.benzoft.gravitytubes;
 
+import com.benzoft.gravitytubes.utils.LocationUtil;
+import com.benzoft.gravitytubes.utils.ParticleUtil;
+import lombok.AccessLevel;
+import lombok.Getter;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
-
-import com.benzoft.gravitytubes.utils.LocationUtil;
-import com.benzoft.gravitytubes.utils.ParticleUtil;
-
-import lombok.Getter;
-
+@Getter
 public class GravityTube {
 
-    @Getter
     private final Location sourceLocation;
+    @Getter(AccessLevel.NONE)
     private final ConfigurationSection configurationSection;
-    @Getter
     private final List<String> owners;
-    @Getter
     private int height;
-    @Getter
     private int power;
+    @Getter(AccessLevel.NONE)
     private ParticleUtil.GTParticleColor color;
-    @Getter
     private Particle type;
 
     public GravityTube(final Location sourceLocation, final ConfigurationSection configurationSection) {
@@ -76,7 +73,7 @@ public class GravityTube {
         this.color = ParticleUtil.getFromColor(color);
         configurationSection.set("color", color);
     }
-    
+
     public void setType(final Particle type) {
         this.type = type;
         configurationSection.set("type", type.name());
@@ -86,6 +83,7 @@ public class GravityTube {
         return Stream.of(
                 "&9&m&l---&e Gravity Tube Info &9&m&l--------",
                 " &7- &eLocation: &a" + LocationUtil.locationToString(sourceLocation),
+                " &7- &eParticle: &a" + type.name(),
                 " &7- &eHeight: &a" + height,
                 " &7- &ePower: &a" + power,
                 " &7- &eColor: &a" + color.getName(),
