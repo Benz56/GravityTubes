@@ -84,7 +84,7 @@ public class UpdateChecker implements Listener {
         try {
             final int[] local = Arrays.stream(localPluginVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
             final int[] spigot = Arrays.stream(spigotPluginVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
-            return IntStream.range(0, local.length).noneMatch(i -> spigot[i] > local[i]);
+            return IntStream.range(0, local.length).filter(i -> local[i] != spigot[i]).limit(1).mapToObj(i -> local[i] >= spigot[i]).findFirst().orElse(true);
         } catch (final NumberFormatException ignored) {
             return localPluginVersion.equals(spigotPluginVersion);
         }
