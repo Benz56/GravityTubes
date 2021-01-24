@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public final class ParticleUtil {
@@ -13,10 +14,26 @@ public final class ParticleUtil {
         return Stream.of(GTParticleColor.values()).filter(gtParticleColor -> gtParticleColor.getColorCode().equalsIgnoreCase(color) || gtParticleColor.toString().equalsIgnoreCase(color)).findFirst().orElse(null);
     }
 
-    public static void spawnParticle(final Location location, final GTParticleColor color) {
+    public static void spawnParticle(final Particle type, final Location location, final GTParticleColor color) {
+        if (!isSupported(type)) return;
+        final float r = isColorable(type) ? color.getR() : 0;
+        final float g = isColorable(type) ? color.getG() : 0;
+        final float b = isColorable(type) ? color.getB() : 0;
         if (Stream.of("1.8", "1.9", "1.10", "1.11", "1.12").noneMatch(Bukkit.getVersion()::contains)) {
-            location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null));
-        } else location.getWorld().spawnParticle(Particle.SPELL_MOB, location, 0, color.getR(), color.getG(), color.getB(), 10, null);
+            if (type.getDataType().getSimpleName().equals("DustOptions")) {
+                location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(type, location, 0, 0, 0, 0, 1, new Particle.DustOptions(org.bukkit.Color.fromRGB((int) (r * 255.999), (int) (g * 255.999), (int) (b * 255.999)), 1)));
+            } else
+                location.getWorld().getPlayers().stream().filter(player -> player.getLocation().distance(location) < 40).forEach(player -> player.spawnParticle(type, location, 0, r, g, b, 10, null));
+        } else
+            location.getWorld().spawnParticle(type, location, 0, r, g, b, 10, null);
+    }
+
+    public static boolean isSupported(final Particle type) {
+        return Arrays.asList("Void", "DustOptions").contains(type.getDataType().getSimpleName());
+    }
+
+    public static boolean isColorable(final Particle type) {
+        return Arrays.asList(Particle.SPELL_MOB, Particle.SPELL_MOB_AMBIENT, Particle.REDSTONE).contains(type);
     }
 
     @Getter

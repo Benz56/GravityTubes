@@ -1,16 +1,18 @@
 package com.benzoft.gravitytubes.files;
 
 
-import com.benzoft.gravitytubes.GravityTube;
-import com.benzoft.gravitytubes.utils.LocationUtil;
-import lombok.Getter;
-import org.bukkit.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.bukkit.Location;
+
+import com.benzoft.gravitytubes.GravityTube;
+import com.benzoft.gravitytubes.utils.LocationUtil;
+
+import lombok.Getter;
 
 public final class GravityTubesFile extends AbstractFile {
 
@@ -50,6 +52,7 @@ public final class GravityTubesFile extends AbstractFile {
         getConfig().set("GravityTubes." + locationsString + ".height", height);
         getConfig().set("GravityTubes." + locationsString + ".power", power);
         getConfig().set("GravityTubes." + locationsString + ".color", "white");
+        getConfig().set("GravityTubes." + locationsString + ".type", "spell_mob");
         save();
         tubes.stream().filter(tube -> tube.getSourceLocation().equals(location)).findFirst().ifPresent(tube -> tubes.remove(tube));
         tubes.add(new GravityTube(location, getConfig().getConfigurationSection("GravityTubes." + locationsString)));
